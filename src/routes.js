@@ -3,11 +3,10 @@ const routes = express.Router()
 
 const authMiddleware = require('./app/middlewares/auth')
 
-const UserController = require('./app/controllers/UserController')
-const SessionController = require('./app/controllers/SessionController')
+const controllers = require('./app/controllers')
 
-routes.post('/users', UserController.store)
-routes.post('/session', SessionController.store)
+routes.post('/users', controllers.UserController.store)
+routes.post('/session', controllers.SessionController.store)
 
 routes.get('/teste', authMiddleware, (req, res) => {
   res.status(200).json('ok')
