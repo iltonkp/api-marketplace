@@ -1,12 +1,22 @@
 const express = require('express')
 const routes = express.Router()
+const validate = require('express-validation')
 
 const authMiddleware = require('./app/middlewares/auth')
 
 const controllers = require('./app/controllers')
+const validators = require('./app/validators')
 
-routes.post('/users', controllers.UserController.store)
-routes.post('/session', controllers.SessionController.store)
+routes.post(
+  '/users',
+  validate(validators.User),
+  controllers.UserController.store
+)
+routes.post(
+  '/session',
+  validate(validators.Session),
+  controllers.SessionController.store
+)
 
 routes.use(authMiddleware)
 
@@ -16,14 +26,18 @@ routes.use(authMiddleware)
 
 routes.get('/ads', controllers.AdController.index)
 routes.get('/ads/:id', controllers.AdController.show)
-routes.post('/ads', controllers.AdController.store)
-routes.put('/ads/:id', controllers.AdController.update)
+routes.post('/ads', validate(validators.Ad), controllers.AdController.store)
+routes.put('/ads/:id', validate(validators.Ad), controllers.AdController.update)
 routes.delete('/ads/:id', controllers.AdController.destroy)
 
 /**
  * Purchase
  */
 
-routes.post('/purchase', controllers.PurchaseController.store)
+routes.post(
+  '/purchase',
+  validate(validators.Purchase),
+  controllers.PurchaseController.store
+)
 
 module.exports = routes
