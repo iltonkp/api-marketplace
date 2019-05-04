@@ -27,6 +27,17 @@ class PurchaseController {
 
     return res.send()
   }
+
+  async confirm (req, res) {
+    const purchase = await Purchase.findById(req.body.purchase)
+    const ad = await Ad.findByIdAndUpdate(
+      purchase.ad,
+      { purchasedBy: purchase._id },
+      { new: true }
+    )
+
+    return res.json(ad)
+  }
 }
 
 module.exports = new PurchaseController()

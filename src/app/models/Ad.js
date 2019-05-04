@@ -19,6 +19,11 @@ const Ad = mongoose.Schema({
     ref: 'User',
     required: true
   },
+
+  purchasedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Purchase'
+  },
   createdAt: {
     type: Date,
     default: Date.now
